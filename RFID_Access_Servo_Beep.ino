@@ -4,7 +4,7 @@
 #define SCK 13
 #define MOSI 11
 #define SS 10
-#define MISO 12
+#define MISO 2 // switched from pin 12
 
 PN532 nfc(SCK, MISO, MOSI, SS);
 
@@ -33,33 +33,41 @@ void setup(void) {
 
     // configure board to read RFID tags and cards
     nfc.SAMConfig();
+    
+    // setup interrupt to detect when a new card reading is comming from the module
+    // interrupt uses digital pin 2 (interrupt 0 on Arduino Uno)
+    attachInterrupt(0, ISR_INTO, CHANGE);
 }
 
 
 void loop(void) {
-    uint32_t id;
-    // look for MiFare type cards
-    id = nfc.readPassiveTargetID(PN532_MIFARE_ISO14443A);
+}
 
-    if (id != 0) {
-        Serial.print("Read card #"); Serial.println(id);
-    }
+void checkAccess() {
+  uint32_t id;
+  // look for MiFare type cards
+  id = nfc.readPassiveTargetID(PN532_MIFARE_ISO14443A);
+  
+  if (id != 0) {
+      Serial.print("Read card #"); Serial.println(id);
+  }
+  
+  // checks for hardcoded IDs
+  if (id==984486619 || id==3137105877 || id==52531444) {
+    Serial.println("Access garanted!!");
     
-    if (id==984486619 || id==3137105877 || id==52531444) {
-      Serial.println("Access garanted!!");
-      
-      myservo.write(180);
-      beep(true);
-      delay(2000);
-      myservo.write(0);
-      //myservo.detach();
-    }
-    else if (id!=0) {
-      Serial.println("Acces denied");
-      beep(false);
-    }
-    //delay(1000);
-    Serial.println("Stand by...");
+    myservo.write(180);
+    beep(true);
+    delay(2000);
+    myservo.write(0);
+    //myservo.detach();
+  }
+  else if (id!=0) {
+    Serial.println("Acces denied");
+    beep(false);
+  }
+  //delay(1000);
+  Serial.println("Stand by...");
 }
 
 void beep(boolean access) {

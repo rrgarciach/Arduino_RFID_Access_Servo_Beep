@@ -45,7 +45,7 @@ void loop(void) {
         Serial.print("Read card #"); Serial.println(id);
     }
     
-    if (id == 984486619) {
+    if (id==984486619 || id==3137105877 || id==52531444) {
       Serial.println("Access garanted!!");
       
       myservo.write(180);
@@ -54,7 +54,7 @@ void loop(void) {
       myservo.write(0);
       //myservo.detach();
     }
-    else if (id == 3137105877) {
+    else if (id!=0) {
       Serial.println("Acces denied");
       beep(false);
     }

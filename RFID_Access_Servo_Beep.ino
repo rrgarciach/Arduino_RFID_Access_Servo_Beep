@@ -7,6 +7,7 @@
 #define MISO 2 // switched from pin 12
 
 PN532 nfc(SCK, MISO, MOSI, SS);
+SoftwareSerial bt(4, 5); // RX, TX
 
 Servo myservo;
 int pos = 0; 
@@ -41,6 +42,19 @@ void setup(void) {
 
 
 void loop(void) {
+}
+
+void btSetup() {
+  // Starts AT command state
+  bt.write(¨AT¨);
+  // Perform synchronous communication
+  while( !bt.avaiable() ) {
+  }
+  Serial.println(bt.read());
+  // Sets device name
+  bt.write(¨AT+NAME=¨);
+  // Sets device PIN
+  bt.write(¨AT+PIN=¨);
 }
 
 void checkAccess() {

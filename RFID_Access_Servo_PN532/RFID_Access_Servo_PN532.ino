@@ -1,5 +1,7 @@
+#include <SoftwareSerial.h>
 #include <PN532.h>
 #include <Servo.h> 
+
 
 #define SCK 13
 #define MOSI 11
@@ -46,15 +48,15 @@ void loop(void) {
 
 void btSetup() {
   // Starts AT command state
-  bt.write(¨AT¨);
+  bt.write("AT\r\n");
   // Perform synchronous communication
   while( !bt.avaiable() ) {
   }
   Serial.println(bt.read());
   // Sets device name
-  bt.write(¨AT+NAME=¨);
+  bt.write("AT+NAME=DOOR\r\n");
   // Sets device PIN
-  bt.write(¨AT+PIN=¨);
+  bt.write("AT+PIN=\r\n");
 }
 
 void checkAccess() {

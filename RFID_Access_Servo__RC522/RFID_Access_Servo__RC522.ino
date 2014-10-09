@@ -6,15 +6,14 @@
 #define RST_PIN 9
 MFRC522 mfrc522(SS_PIN, RST_PIN);	// Create MFRC522 instance.
 SoftwareSerial bt(4, 5); // RX, TX
+int outputPin = 8;
 
 void setup() {
   Serial.begin(115200);	// Initialize serial communications with the PC
   SPI.begin();		// Init SPI bus
   mfrc522.PCD_Init();	// Init MFRC522 card
-  Serial.println("Scan a MIFARE Classic PICC to demonstrate Value Blocks.");
-  //attachInterrupt(0, checkAccess, FALLING);
-  //attachInterrupt(1, checkAccess, FALLING);
-  pinMode(2, OUTPUT);  
+  Serial.println("RC522 ready.");
+  pinMode(outputPin, OUTPUT);  
 }
 
 void loop() {
@@ -180,7 +179,7 @@ void formatBlock(byte blockAddr) {
   }
 } // End formatBlock()
 */
-void checkAccess() {
+void checkAccess() {  
   // Dump UID
   String cardID = "";
   Serial.print("Card UID:");
@@ -196,7 +195,33 @@ void checkAccess() {
     digitalWrite(2,HIGH);
     delay(2000);
     digitalWrite(2,LOW);
-    //return true;
+    //myservo.write(180);
+    beep(true);
+    delay(2000);
+    //myservo.write(0);
   }
-  //return false;
+  beep(false);
+}
+
+void beep(boolean access) {
+  switch (access) {
+    case true:
+      digitalWrite(outputPin, HIGH);
+      delay(1000);
+      digitalWrite(outputPin, LOW);
+      break;
+    case false:
+      digitalWrite(outputPin, HIGH);
+      delay(100);
+      digitalWrite(outputPin, LOW);
+      delay(100);
+      digitalWrite(outputPin, HIGH);
+      delay(100);
+      digitalWrite(outputPin, LOW);
+      delay(100);
+      digitalWrite(outputPin, HIGH);
+      delay(100);
+      digitalWrite(outputPin, LOW);
+      break;
+  }
 }

@@ -47,15 +47,20 @@ void checkAccess() {
     cardID += String(mfrc522.uid.uidByte[i], HEX);
   }
   Serial.println(cardID);
-
+  
+  // Send ID request to Internet
+  bt.println(cardID);
+  
+  // Wait for response
+  while( ! bt.available() ) {}
   
   if( bt.available() ) {
     while( bt.available() ) {
       btStringBuffer += (char)bt.read();
     }
   }
-    
-  if (cardID == "bafc6fd5") {
+    // "bafc6fd5"
+  if (btStringBuffer == "true") {
     Serial.println("Access!!!");
     bt.println("Access!!!");
     

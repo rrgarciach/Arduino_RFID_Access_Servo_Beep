@@ -68,10 +68,13 @@ void checkAccess() {
     beep(true);
     delay(2000);
     //myservo.write(0);
+  } else {
+    Serial.println("Access NOT ALLOWED.");
+    bt.println("Access NOT ALLOWED.");
+    //beep(false);
   }
-  Serial.println("Access NOT ALLOWED.");
-  bt.println("Access NOT ALLOWED.");
-  beep(false);
+  btStringBuffer= "";
+  bt.flush();
 }
 
 void btSetup() {

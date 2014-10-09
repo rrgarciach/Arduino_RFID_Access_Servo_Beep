@@ -12,7 +12,8 @@ void setup() {
   SPI.begin();		// Init SPI bus
   mfrc522.PCD_Init();	// Init MFRC522 card
   Serial.println("Scan a MIFARE Classic PICC to demonstrate Value Blocks.");
-  attachInterrupt(0, checkAccess, CHANGE);
+  //attachInterrupt(0, checkAccess, FALLING);
+  //attachInterrupt(1, checkAccess, FALLING);
   pinMode(2, OUTPUT);  
 }
 
@@ -26,8 +27,10 @@ void loop() {
   if ( ! mfrc522.PICC_ReadCardSerial() ) {
     return;
   }
+  checkAccess();
+}
   // Now a card is selected. The UID and SAK is in mfrc522.uid.
-
+/*
   // Dump UID
   String cardID = "";
   Serial.print("Card UID:");
@@ -36,12 +39,8 @@ void loop() {
     cardID += String(mfrc522.uid.uidByte[i], HEX);
   }
   Serial.println(cardID);
-  if (cardID == "bafc6fd5") {
-    Serial.println("Access!!!");
-    digitalWrite(2,HIGH);
-    delay(2000);
-    digitalWrite(2,LOW);
-  }
+  Serial.println( checkAccess(cardID) );
+  
   Serial.println();
 
   // Dump PICC type
@@ -54,7 +53,7 @@ void loop() {
     Serial.println("This sample only works with MIFARE Classic cards.");
     return;
   }
-
+  
   // Prepare key - all keys are set to FFFFFFFFFFFFh at chip delivery from the factory.
   MFRC522::MIFARE_Key key;
   for(byte i = 0; i < 6; i++) {
@@ -144,7 +143,8 @@ void loop() {
   // Stop encryption on PCD
   mfrc522.PCD_StopCrypto1();
 }
-
+*/
+/*
 void formatBlock(byte blockAddr) {
   Serial.print("Reading block "); Serial.println(blockAddr);
   byte buffer[18];
@@ -179,5 +179,24 @@ void formatBlock(byte blockAddr) {
     }
   }
 } // End formatBlock()
-
-void checkAccess() {}
+*/
+void checkAccess() {
+  // Dump UID
+  String cardID = "";
+  Serial.print("Card UID:");
+  for(byte i = 0; i < mfrc522.uid.size; i++) {
+    //cardKey += String(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " ");
+    cardID += String(mfrc522.uid.uidByte[i], HEX);
+  }
+  Serial.println(cardID);
+  
+  Serial.println();
+  if (cardID == "bafc6fd5") {
+    Serial.println("Access!!!");
+    digitalWrite(2,HIGH);
+    delay(2000);
+    digitalWrite(2,LOW);
+    //return true;
+  }
+  //return false;
+}

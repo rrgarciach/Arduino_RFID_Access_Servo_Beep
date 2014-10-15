@@ -79,7 +79,8 @@ void checkAccess() {
     id == 1253736667 ||
     id == 2060542171 ||
     id == 3136827867 ||
-    id == 715941340
+    id == 715941340 ||
+    id == 3934937307
     ) {
       Serial.println("Access garanted!!");
       // openning...

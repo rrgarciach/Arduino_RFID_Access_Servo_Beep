@@ -8,6 +8,17 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);	// Create MFRC522 instance.
 SoftwareSerial bt(5, 4); // RX, TX
 int outputPin = 8;
 String btStringBuffer;
+String allowedIDs[] = {
+  "bafc6fd5", //karla
+  "9aed7bdb", //gochi
+  "5af14bdb", //rene
+  "a1881db", //ruy
+  "4a6d42db", //spiro
+  "4aba80db", //gerardo
+  "7ad160db", //JC
+  "baf831db", //Abraham
+  "2aac65dc", //Jey-El
+};
 
 void setup() {
   Serial.begin(115200);	// Initialize serial communications with the PC

@@ -14,8 +14,16 @@ SoftwareSerial bt(4, 5); // RX, TX
 Servo myservo;
 int pos = 0; 
 int allowedIDs[] = {
-  984486619,
-  3137105877
+  984486619,//elisa
+  3137105877, //karla
+  2599255003, //gochi
+  1525763035, //rene
+  169378267, //ruy
+  1248674523, //spiro
+  1253736667, //gerardo
+  2060542171, //JC
+  3136827867, //Abraham
+  715941340 //Jey-El
 };
 
 void setup(void) {

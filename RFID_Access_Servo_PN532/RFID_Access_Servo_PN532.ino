@@ -78,24 +78,22 @@ void checkAccess() {
   id = nfc.readPassiveTargetID(PN532_MIFARE_ISO14443A);
   
   if (id != 0) {
-      Serial.print("Read card #"); Serial.println(id);
-  }
-  
-  // checks for hardcoded IDs
-  for (int i=0 ; i < sizeof(allowedIDs) - 1 ; i++) {
-    if (id == allowedIDs[i]) {
-      Serial.println("Access garanted!!");
-      
-      myservo.write(180);
-      beep(true);
-      delay(2000);
-      myservo.write(0);
-      //myservo.detach();
+    Serial.print("Read card #"); Serial.println(id);
+    // checks for hardcoded IDs in array
+    for (int i=0 ; i < sizeof(allowedIDs) - 1 ; i++) {
+      if (id == allowedIDs[i]) {
+        Serial.println("Access garanted!!");
+        // openning...
+        myservo.write(180);
+        beep(true);
+        delay(2000);
+        myservo.write(0);
+        //myservo.detach();
+        break;
+      }
     }
-    else if (id!=0) {
-      Serial.println("Acces denied");
-      beep(false);
-    }
+    Serial.println("Acces denied");
+    beep(false);
   }
   //delay(1000);
   Serial.println("Stand by...");

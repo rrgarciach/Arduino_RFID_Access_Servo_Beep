@@ -13,18 +13,6 @@ SoftwareSerial bt(4, 5); // RX, TX
 
 Servo myservo;
 int pos = 0; 
-int allowedIDs[] = {
-  984486619,//elisa
-  3137105877, //karla
-  2599255003, //gochi
-  1525763035, //rene
-  169378267, //ruy
-  1248674523, //spiro
-  1253736667, //gerardo
-  2060542171, //JC
-  3136827867, //Abraham
-  715941340 //Jey-El
-};
 
 void setup(void) {
   pinMode(8, OUTPUT);
@@ -80,20 +68,31 @@ void checkAccess() {
   if (id != 0) {
     Serial.print("Read card #"); Serial.println(id);
     // checks for hardcoded IDs in array
-    for (int i=0 ; i < sizeof(allowedIDs) - 1 ; i++) {
-      if (id == allowedIDs[i]) {
-        Serial.println("Access garanted!!");
-        // openning...
-        myservo.write(180);
-        beep(true);
-        delay(2000);
-        myservo.write(0);
-        //myservo.detach();
-        break;
-      }
+
+    if (
+    id == 984486619 ||
+    id == 3137105877 ||
+    id == 2599255003 ||
+    id == 1525763035 ||
+    id == 169378267 ||
+    id == 1248674523 ||
+    id == 1253736667 ||
+    id == 2060542171 ||
+    id == 3136827867 ||
+    id == 715941340
+    ) {
+      Serial.println("Access garanted!!");
+      // openning...
+      myservo.write(180);
+      beep(true);
+      delay(2000);
+      myservo.write(0);
+      //myservo.detach();
     }
-    Serial.println("Acces denied");
-    beep(false);
+    else {
+      Serial.println("Acces denied");
+      beep(false);
+    }
   }
   //delay(1000);
   Serial.println("Stand by...");

@@ -56,6 +56,7 @@ void setup(void) {
 
 
 void loop(void) {
+  checkAccess();
 }
 
 void btSetup() {
